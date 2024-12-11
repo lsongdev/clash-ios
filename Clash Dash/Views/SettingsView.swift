@@ -8,6 +8,45 @@ struct SettingsView: View {
     
     var body: some View {
         Form {
+            
+            // 常规设置
+            Section("常规设置") {
+                
+                
+                Picker("运行模式", selection: $viewModel.mode) {
+                    Text("规则模式").tag("rule")
+                    Text("全局模式").tag("global")
+                    Text("直连模式").tag("direct")
+                    Text("脚本模式").tag("script")
+                }
+                .onChange(of: viewModel.mode) { newValue in
+                    viewModel.updateConfig("mode", value: newValue, server: server)
+                }
+                
+                NavigationLink {
+                    DNSQueryView(server: server)
+                } label: {
+                    Text("DNS 查询")
+                }
+                
+                Picker("日志等级", selection: $viewModel.logLevel) {
+                    Text("调试").tag("debug")
+                    Text("信息").tag("info")
+                    Text("警告").tag("warning")
+                    Text("错误").tag("error")
+                    Text("静默").tag("silent")
+                }
+                .onChange(of: viewModel.logLevel) { newValue in
+                    viewModel.updateConfig("log-level", value: newValue, server: server)
+                }
+                NavigationLink {
+                    LogView(server: server)
+                } label: {
+                    Text("日志")
+                }
+                
+            }
+            
             // 端口设置
             Section("端口设置") {
                 PortSettingRow(
@@ -64,36 +103,14 @@ struct SettingsView: View {
                         viewModel.tproxyPort = newValue
                     }
                 }
-            }
-            
-            // 常规设置
-            Section("常规设置") {
+                
                 Toggle("允许局域网连接", isOn: $viewModel.allowLan)
                     .onChange(of: viewModel.allowLan) { newValue in
                         viewModel.updateConfig("allow-lan", value: newValue, server: server)
                     }
-                
-                Picker("运行模式", selection: $viewModel.mode) {
-                    Text("规则模式").tag("rule")
-                    Text("全局模式").tag("global")
-                    Text("直连模式").tag("direct")
-                    Text("脚本模式").tag("script")
-                }
-                .onChange(of: viewModel.mode) { newValue in
-                    viewModel.updateConfig("mode", value: newValue, server: server)
-                }
-                
-                Picker("日志等级", selection: $viewModel.logLevel) {
-                    Text("调试").tag("debug")
-                    Text("信息").tag("info")
-                    Text("警告").tag("warning")
-                    Text("错误").tag("error")
-                    Text("静默").tag("silent")
-                }
-                .onChange(of: viewModel.logLevel) { newValue in
-                    viewModel.updateConfig("log-level", value: newValue, server: server)
-                }
             }
+            
+            
             
             // TUN 设置
             if viewModel.config?.isMetaServer == true {
@@ -137,6 +154,8 @@ struct SettingsView: View {
                             }
                     }
                 }
+                
+                
                 
                 // 系统维护
                 Section("系统维护") {

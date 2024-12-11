@@ -9,7 +9,7 @@ import SwiftUI
 import Network
 
 @main
-struct Clash_Dash: App {
+struct ClashDashApp: App {
     @StateObject private var networkMonitor = NetworkMonitor()
     
     init() {

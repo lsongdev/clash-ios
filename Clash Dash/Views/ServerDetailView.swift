@@ -40,9 +40,9 @@ struct ServerDetailView: View {
                     .tag(3)
                 
                 // 更多标签页
-                MoreView(server: server)
+                SettingsView(server: server)
                     .tabItem {
-                        Label("More", systemImage: "ellipsis")
+                        Label("更多", systemImage: "ellipsis")
                     }
                     .tag(4)
             }
@@ -410,136 +410,6 @@ struct ChartCard<Content: View>: View {
         .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
     }
 }
-
-
-// 其他标签页视图
-// struct ProxyView: View {
-//     let server: ClashServer
-//     @StateObject private var viewModel = ProxyViewModel()
-//    
-//     var body: some View {
-//         List {
-//             Section("全局设置") {
-//                 HStack {
-//                     Text("模式")
-//                     Spacer()
-//                     Picker("模式", selection: .constant("Rule")) {
-//                         Text("规则").tag("Rule")
-//                         Text("全局").tag("Global")
-//                         Text("直连").tag("Direct")
-//                     }
-//                     .pickerStyle(.menu)
-//                 }
-//             }
-//            
-//             Section("代理组") {
-//                 ForEach(0..<3) { _ in
-//                     ProxyGroupRow()
-//                 }
-//             }
-//            
-//             Section("节点") {
-//                 ForEach(0..<5) { index in
-//                     HStack {
-//                         Text("节点 \(index + 1)")
-//                         Spacer()
-//                         Text("\(Int.random(in: 100...500))ms")
-//                             .foregroundColor(.secondary)
-//                     }
-//                 }
-//             }
-//         }
-//     }
-// }
-
-// struct RulesView: View {
-//     let server: ClashServer
-//     @StateObject private var viewModel = RulesViewModel()
-    
-//     var body: some View {
-//         List {
-//             ForEach(0..<20) { index in
-//                 VStack(alignment: .leading, spacing: 4) {
-//                     Text("DOMAIN-SUFFIX")
-//                         .font(.headline)
-//                     Text("example\(index).com")
-//                         .font(.subheadline)
-//                         .foregroundColor(.secondary)
-//                     Text("Proxy")
-//                         .font(.caption)
-//                         .foregroundColor(.blue)
-//                 }
-//                 .padding(.vertical, 4)
-//             }
-//         }
-//         .searchable(text: .constant(""))
-//         .overlay {
-//             if true { // 替换为实际的加载状态
-//                 ProgressView()
-//             }
-//         }
-//     }
-// }
-
-struct MoreView: View {
-    let server: ClashServer
-    
-    var body: some View {
-        List {
-            NavigationLink {
-                SettingsView(server: server)
-            } label: {
-                Label("配置", systemImage: "gearshape")
-            }
-            
-            NavigationLink {
-                LogView(server: server)
-            } label: {
-                Label("日志", systemImage: "doc.text")
-            }
-            
-            // 添加域名查询工具
-            NavigationLink {
-                DNSQueryView(server: server)
-            } label: {
-                Label("解析", systemImage: "magnifyingglass")
-            }
-        }
-        .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-// struct SettingsView: View {
-//     let server: ClashServer
-//     @StateObject private var viewModel = SettingsViewModel()
-    
-//     var body: some View {
-//         Form {
-//             Section("常规") {
-//                 Toggle("允许局域网", isOn: .constant(true))
-//                 Toggle("IPv6", isOn: .constant(false))
-//             }
-            
-//             Section("DNS") {
-//                 Toggle("启用", isOn: .constant(true))
-//                 Toggle("IPv6", isOn: .constant(false))
-//                 Toggle("使用系统DNS", isOn: .constant(true))
-//             }
-            
-//             Section("TUN") {
-//                 Toggle("启用", isOn: .constant(false))
-//                 Toggle("自动路由", isOn: .constant(true))
-//                 Toggle("DNS劫持", isOn: .constant(true))
-//             }
-            
-//             Section("实验性功能") {
-//                 Toggle("TCP并发", isOn: .constant(false))
-//                 Toggle("UDP并发", isOn: .constant(false))
-//             }
-//         }
-//         .navigationBarTitleDisplayMode(.inline)
-//     }
-// }
 
 // 辅助视图组件
 struct ProxyGroupRow: View {

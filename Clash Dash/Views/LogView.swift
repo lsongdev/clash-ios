@@ -7,71 +7,31 @@ struct LogView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // 日志级别选择器
-            VStack(spacing: 0) {
-                NavigationLink {
-                    LogLevelSelectionView(
-                        selectedLevel: $selectedLevel,
-                        onLevelSelected: { level in
-                            viewModel.setLogLevel(level.wsLevel)
-                        }
-                    )
-                } label: {
-                    HStack {
-                        Label {
-                            Text("日志级别")
-                                .foregroundColor(.primary)
-                        } icon: {
-                            Image(systemName: "list.bullet.circle.fill")
-                                .foregroundColor(selectedLevel.color)
-                        }
-                        Spacer()
-                        Text(selectedLevel.rawValue)
-                            .foregroundColor(.secondary)
-                        Image(systemName: "chevron.right")
-                            .font(.system(size: 13, weight: .semibold))
-                            .foregroundColor(.secondary)
-                    }
-                    .padding()
-                    .background(Color(.secondarySystemGroupedBackground))
-                    .cornerRadius(12)
-                }
-            }
-            .padding()
-            .background(Color(.systemGroupedBackground))
-            
             // 日志列表
-            ZStack {
-                Color(.systemGroupedBackground)
-                    .edgesIgnoringSafeArea(.bottom)
-                
-                if viewModel.logs.isEmpty && viewModel.isConnected {
-                    EmptyStateView(
-                        title: "暂无日志",
-                        systemImage: "doc.text",
-                        description: "正在等待日志..."
-                    )
-                    .transition(.opacity)
-                } else if !viewModel.isConnected {
-                    EmptyStateView(
-                        title: "连接断开",
-                        systemImage: "wifi.slash",
-                        description: "正在尝试重新连接..."
-                    )
-                    .transition(.opacity)
-                } else {
-                    ScrollView {
-                        LazyVStack(spacing: 12) {
-                            ForEach(viewModel.logs.reversed()) { log in
-                                LogRow(log: log)
-                            }
+            if viewModel.logs.isEmpty && viewModel.isConnected {
+                EmptyStateView(
+                    title: "暂无日志",
+                    systemImage: "doc.text",
+                    description: "正在等待日志..."
+                )
+                .transition(.opacity)
+            } else if !viewModel.isConnected {
+                EmptyStateView(
+                    title: "连接断开",
+                    systemImage: "wifi.slash",
+                    description: "正在尝试重新连接..."
+                )
+                .transition(.opacity)
+            } else {
+                ScrollView {
+                    LazyVStack() {
+                        ForEach(viewModel.logs.reversed()) { log in
+                            LogRow(log: log)
                         }
-                        .padding(.vertical, 12)
-                        .padding(.horizontal)
                     }
+                    .padding(.horizontal)
                 }
             }
-            .frame(maxHeight: .infinity)
         }
         .navigationTitle("日志")
         .navigationBarTitleDisplayMode(.inline)

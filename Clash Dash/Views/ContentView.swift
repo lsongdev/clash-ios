@@ -31,19 +31,9 @@ struct ContentView: View {
                             .multilineTextAlignment(.center)
                             .padding(.horizontal, 32)
                         
-                        Menu {
-                            Button(action: {
-                                showingAddSheet = true
-                            }) {
-                                Label("Clash 控制器", systemImage: "server.rack")
-                            }
-                            
-                            Button(action: {
-                                showingAddOpenWRTSheet = true
-                            }) {
-                                Label("OpenWRT 服务器", systemImage: "wifi.router")
-                            }
-                        } label: {
+                        Button(action: {
+                            showingAddSheet = true
+                        }) {
                             Text("添加服务器")
                                 .font(.headline)
                                 .foregroundColor(.white)
@@ -51,7 +41,6 @@ struct ContentView: View {
                                 .background(Color.blue)
                                 .cornerRadius(22)
                         }
-                        .padding(.top, 20)
                         
                         Spacer()
                     }
@@ -101,13 +90,6 @@ struct ContentView: View {
                                 iconColor: .blue,
                                 destination: HelpView()
                             )
-                            
-                            // SettingsLinkRow(
-                            //     title: "给APP评分",
-                            //     icon: "star.fill",
-                            //     iconColor: .yellow,
-                            //     destination: RateAppView()
-                            // )
                         }
                         .padding()
                         .background(Color(.secondarySystemGroupedBackground))
@@ -131,19 +113,9 @@ struct ContentView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
-                    Menu {
-                        Button(action: {
-                            showingAddSheet = true
-                        }) {
-                            Label("Clash 控制器", systemImage: "server.rack")
-                        }
-                        
-                        Button(action: {
-                            showingAddOpenWRTSheet = true
-                        }) {
-                            Label("OpenWRT 服务器", systemImage: "wifi.router")
-                        }
-                    } label: {
+                    Button(action: {
+                        showingAddSheet = true
+                    }) {
                         Image(systemName: "plus.circle.fill")
                             .font(.title2)
                             .foregroundColor(.blue)
@@ -154,14 +126,7 @@ struct ContentView: View {
                 AddServerView(viewModel: viewModel)
             }
             .sheet(item: $editingServer) { server in
-                if server.source == .clashController {
-                    EditServerView(viewModel: viewModel, server: server)
-                } else {
-                    OpenWRTServerView(viewModel: viewModel, server: server)
-                }
-            }
-            .sheet(isPresented: $showingAddOpenWRTSheet) {
-                OpenWRTServerView(viewModel: viewModel)
+                EditServerView(viewModel: viewModel, server: server)
             }
             .refreshable {
                 await viewModel.checkAllServersStatus()
@@ -232,10 +197,10 @@ struct ServerRowView: View {
                     HStack(spacing: 4) {
                         // 服务器来源标签
                         Label {
-                            Text(server.source == .clashController ? "Clash 控制器" : "OpenWRT")
+                            Text("Clash 控制器")
                                 .foregroundColor(.secondary)
                         } icon: {
-                            Image(systemName: server.source == .clashController ? "server.rack" : "wifi.router")
+                            Image(systemName: "server.rack")
                                 .foregroundColor(.secondary)
                         }
                         .font(.caption)

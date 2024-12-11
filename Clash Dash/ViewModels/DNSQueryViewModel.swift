@@ -92,7 +92,7 @@ class DNSQueryViewModel: ObservableObject {
                     
                     if let answers = response.Answer {
                         self?.results = answers.map { answer in
-                            "TTL: \(answer.TTL)  数据: \(answer.data)"
+                            "\(answer.data) TTL: \(answer.TTL)"
                         }
                     } else {
                         self?.results = ["未找到记录"]

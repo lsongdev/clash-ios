@@ -133,7 +133,7 @@ struct ProxyView: View {
                                 }
                             }
                         }
-                        .navigationTitle("To Section")
+                        .navigationTitle("Goto")
                         .navigationBarTitleDisplayMode(.inline)
                     }
                     .presentationDetents([.medium])
@@ -282,14 +282,7 @@ struct ProxyGroupCard: View {
                     .background(.secondary.opacity(0.2))
                     .clipShape(Capsule())
                 
-                // 添加选中的节点显示
-                if !selectedNode.isEmpty {
-                    Text("\(selectedNode)")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .lineLimit(1)
-                        .truncationMode(.middle)
-                }
+                
                 
                 Spacer()
                 
@@ -327,10 +320,19 @@ struct ProxyGroupCard: View {
                 }
             }
             
+//            // 添加选中的节点显示
+//            if !selectedNode.isEmpty {
+//                Text("\(selectedNode)")
+//                    .font(.caption)
+//                    .foregroundStyle(.secondary)
+//                    .lineLimit(1)
+//                    .truncationMode(.middle)
+//            }
+            
             // 展开后的详细列表
             if isExpanded {
-                ScrollView {
-                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
+            
+                    LazyVGrid(columns: [GridItem(.flexible())], spacing: 12) {
                         ForEach(nodes) { node in
                             Button {
                                 Task {
@@ -425,8 +427,8 @@ struct ProxyGroupCard: View {
                     .padding(.horizontal, 4)
                     .padding(.top, 8)
                     .padding(.bottom, 8)
-                }
-                .frame(maxHeight: 500)
+                
+                
             } else {
                 // 节点状态网格
                 LazyVGrid(columns: columns, spacing: 4) {
@@ -481,10 +483,10 @@ struct ProxyGroupCard: View {
                 }
             }
         }
-        .padding()
-        .background(Color(.systemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-        .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
+//        .padding()
+//        .background(Color(.systemBackground))
+//        .clipShape(RoundedRectangle(cornerRadius: 12))
+//        .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
         .onChange(of: selectedNode) { newValue in
             print("节点选择变化 - 组：\(name), 新节点：\(newValue)")
         }
